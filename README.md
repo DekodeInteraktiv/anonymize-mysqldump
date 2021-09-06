@@ -119,4 +119,4 @@ If you need another type, please feel free to add support and file a PR!
 
 ## Credit
 
-Many thanks to [`Automattic/go-search-replace`](https://github.com/Automattic/go-search-replace) for serving as the starting point for this tool, for [`HumanMade/go-anonymize-mysqldump`](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump) their improvements. Also many thanks to [`xwb1989/sqlparser`](https://github.com/xwb1989/sqlparser) for the SQL parsing library. We wouldn't have been able to do this without them!
+Many thanks to [`Automattic/go-search-replace`](https://github.com/Automattic/go-search-replace) for serving as the starting point for this tool, and [`HumanMade/go-anonymize-mysqldump`](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump) for their improvements. Also many thanks to [`xwb1989/sqlparser`](https://github.com/xwb1989/sqlparser) for the SQL parsing library. We wouldn't have been able to do this without them!
