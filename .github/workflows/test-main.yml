@@ -1,0 +1,30 @@
+name: Test Main Branch
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup GO environment
+        uses: actions/setup-go@v2
+
+      - name: Setup environment
+        run: |
+          go mod vendor
+          LOG_LEVEL=debug
+
+      - name: Test local binaries
+        run: |
+          go test -v .
+
+      - name: Test benchmark performance
+        run: |
+          go test -bench .
