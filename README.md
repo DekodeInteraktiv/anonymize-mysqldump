@@ -1,6 +1,6 @@
 # `anonymize-mysqldump`
 
-[![CircleCI](https://circleci.com/gh/humanmade/go-anonymize-mysqldump.svg?style=svg&circle-token=ebedd768d31011e20aff68c78694a171e62a7ec0)](https://circleci.com/gh/humanmade/go-anonymize-mysqldump)
+[![Test Main Branch](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump/actions/workflows/test-main.yml/badge.svg?branch=main)](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump/actions/workflows/test-main.yml)
 
 Allows you to pipe data from `mysqldump` or an SQL file and anonymize it:
 
