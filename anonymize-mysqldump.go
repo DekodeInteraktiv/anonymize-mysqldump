@@ -10,6 +10,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 )
@@ -19,8 +20,9 @@ type Config struct {
 }
 
 type ConfigPattern struct {
-	TableName string         `json:"tableName"`
-	Fields    []PatternField `json:"fields"`
+	TableName      string         `json:"tableName"`
+	TableNameRegex string         `json:"tableNameRegex"`
+	Fields         []PatternField `json:"fields"`
 }
 
 type PatternField struct {
@@ -268,9 +270,17 @@ func applyConfigToInserts(stmt *sqlparser.Insert, config Config) (*sqlparser.Ins
 	// of the desired changes
 	// TODO make this use goroutines
 	for _, pattern := range config.Patterns {
-		if stmt.Table.Name.String() != pattern.TableName {
-			// Config is not for this table, move onto next available config
-			continue
+		if pattern.TableNameRegex != "" {
+			re := regexp.MustCompile(pattern.TableNameRegex)
+			match := re.MatchString(stmt.Table.Name.String())
+			if !match {
+				continue
+			}
+		} else {
+			if stmt.Table.Name.String() != pattern.TableName {
+				// Config is not for this table, move onto next available config
+				continue
+			}
 		}
 
 		// Ok, now it's time to make some modifications

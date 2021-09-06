@@ -96,6 +96,7 @@
     },
     {
       "tableName": "wp_comments",
+      "tableNameRegex": ".*_comments",
       "fields": [
         {
           "field": "comment_author",
