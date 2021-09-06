@@ -20,7 +20,7 @@ func generateEmail(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Internet().SafeEmail()))
 }
 
-func generatePhoneNumber() *sqlparser.SQLVal {
+func generatePhoneNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.PhoneNumber().CellPhone()))
 }
 
