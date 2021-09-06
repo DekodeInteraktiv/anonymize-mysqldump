@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/md5"
+	"encoding/hex"
 
 	"github.com/xwb1989/sqlparser"
 	"syreclabs.com/go/faker"
@@ -13,7 +14,7 @@ func generateUsername(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generatePassword(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	password := md5.Sum([]byte(faker.Internet().Password(8, 14)))
-	return sqlparser.NewStrVal([]byte(password[:]))
+	return sqlparser.NewStrVal([]byte(hex.EncodeToString(password[:])))
 }
 
 func generateEmail(value *sqlparser.SQLVal) *sqlparser.SQLVal {
