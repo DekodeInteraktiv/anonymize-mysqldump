@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/md5"
+
 	"github.com/xwb1989/sqlparser"
 	"syreclabs.com/go/faker"
 )
@@ -10,12 +12,16 @@ func generateUsername(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 }
 
 func generatePassword(value *sqlparser.SQLVal) *sqlparser.SQLVal {
-	// TODO encrypt this value
-	return sqlparser.NewStrVal([]byte(faker.Internet().Password(8, 14)))
+	password := md5.Sum([]byte(faker.Internet().Password(8, 14)))
+	return sqlparser.NewStrVal([]byte(password[:]))
 }
 
 func generateEmail(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Internet().SafeEmail()))
+}
+
+func generatePhoneNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.PhoneNumber().CellPhone()))
 }
 
 func generateURL(value *sqlparser.SQLVal) *sqlparser.SQLVal {
@@ -40,4 +46,44 @@ func generateParagraph(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateIPv4(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Internet().IpV4Address()))
+}
+
+func generateAddress(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().String()))
+}
+
+func generateStreetAddress(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().StreetAddress()))
+}
+
+func generatePostcode(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().Postcode()))
+}
+
+func generateCountry(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().Country()))
+}
+
+func generateCreditCardNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Business().CreditCardNumber()))
+}
+
+func generateCreditCardExpiryDate(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Business().CreditCardExpiryDate()))
+}
+
+func generateCreditCardType(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Business().CreditCardType()))
+}
+
+func generateCompanyName(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Company().Name()))
+}
+
+func generateCompanyNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Number().Number(9)))
+}
+
+func generateShortString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Lorem().Characters(30)))
 }

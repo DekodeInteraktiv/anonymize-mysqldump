@@ -4,15 +4,16 @@ import (
 	"bufio"
 	"encoding/json"
 	"fmt"
-	"github.com/akamensky/argparse"
-	"github.com/sirupsen/logrus"
-	"github.com/xwb1989/sqlparser"
 	"io"
 	"io/ioutil"
 	"os"
 	"regexp"
 	"strings"
 	"sync"
+
+	"github.com/akamensky/argparse"
+	"github.com/sirupsen/logrus"
+	"github.com/xwb1989/sqlparser"
 )
 
 type Config struct {
@@ -40,15 +41,26 @@ type PatternFieldConstraint struct {
 
 var (
 	transformationFunctionMap = map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal{
-		"username":  generateUsername,
-		"password":  generatePassword,
-		"email":     generateEmail,
-		"url":       generateURL,
-		"name":      generateName,
-		"firstName": generateFirstName,
-		"lastName":  generateLastName,
-		"paragraph": generateParagraph,
-		"ipv4":      generateIPv4,
+		"username":             generateUsername,
+		"password":             generatePassword,
+		"email":                generateEmail,
+		"url":                  generateURL,
+		"name":                 generateName,
+		"firstName":            generateFirstName,
+		"lastName":             generateLastName,
+		"phoneNumber":          generatePhoneNumber,
+		"addressFull":          generateAddress,
+		"addressStreet":        generateStreetAddress,
+		"addressPostCode":      generatePostcode,
+		"addressCountry":       generateCountry,
+		"paragraph":            generateParagraph,
+		"shortString":          generateShortString,
+		"ipv4":                 generateIPv4,
+		"companyName":          generateCompanyName,
+		"companyNumber":        generateCompanyNumber,
+		"creditCardNumber":     generateCreditCardNumber,
+		"creditCardExpiryDate": generateCreditCardExpiryDate,
+		"creditCardType":       generateCreditCardType,
 	}
 )
 
@@ -309,7 +321,7 @@ func modifyValues(values sqlparser.Values, pattern ConfigPattern) (sqlparser.Val
 			value, valueNotNull := values[row][valTupleIndex].(*sqlparser.SQLVal)
 
 			// If the value is of the `null` variety, processing this line.
-			if ! valueNotNull {
+			if !valueNotNull {
 				continue
 			}
 
