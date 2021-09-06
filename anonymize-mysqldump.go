@@ -296,10 +296,10 @@ func modifyValues(values sqlparser.Values, pattern ConfigPattern) (sqlparser.Val
 			// Position is 1 indexed instead of 0, so let's subtract 1 in order to get
 			// it to line up with the value inside the ValTuple inside of values.Values
 			valTupleIndex := fieldPattern.Position - 1
-			value, isValueNull := values[row][valTupleIndex].(*sqlparser.SQLVal)
+			value, valueNotNull := values[row][valTupleIndex].(*sqlparser.SQLVal)
 
 			// If the value is of the `null` variety, processing this line.
-			if isValueNull {
+			if ! valueNotNull {
 				continue
 			}
 
