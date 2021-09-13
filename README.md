@@ -2,10 +2,16 @@
 
 [![Test Main Branch](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump/actions/workflows/test-main.yml/badge.svg?branch=main)](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump/actions/workflows/test-main.yml)
 
-Allows you to pipe data from `mysqldump` or an SQL file and anonymize it:
+Allows you to pipe data from `mysqldump` and anonymize it:
 
 ```sh
 mysqldump -u yada -pbadpass -h db | anonymize-mysqldump --config config.json > anonymized.sql
+```
+
+You may also pipe in the content of an existing SQL dump using `cat`:
+
+```sh
+cat database.sql | anonymize-mysqldump --config config.json > anonymized.sql
 ```
 
 ```
