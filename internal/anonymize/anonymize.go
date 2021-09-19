@@ -2,54 +2,36 @@ package anonymize
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"os"
 	"regexp"
 	"strings"
 	"sync"
 
+	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/config"
 	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/flag"
 	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/helpers"
 
 	"github.com/xwb1989/sqlparser"
 )
 
-type Config struct {
-	Patterns []ConfigPattern `json:"patterns"`
-}
-
-type ConfigPattern struct {
-	TableName      string         `json:"tableName"`
-	TableNameRegex string         `json:"tableNameRegex"`
-	Fields         []PatternField `json:"fields"`
-}
-
-type PatternField struct {
-	Field       string                   `json:"field"`
-	Position    int                      `json:"position"`
-	Type        string                   `json:"type"`
-	Constraints []PatternFieldConstraint `json:"constraints"`
-}
-
-type PatternFieldConstraint struct {
-	Field    string `json:"field"`
-	Position int    `json:"position"`
-	Value    string `json:"value"`
-}
-
 var (
 	transformationFunctionMap map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal
 )
 
-func Start() {
-	configFile := flag.Parse()
-	config := readConfigFile(*configFile)
+func Start(version, commit, date string) {
+	// Create new config.
+	config := config.New(version, commit, date)
 
-	lines := setupAndProcessInput(config, os.Stdin)
+	// Parse flags for custom config file.
+	configFile := flag.Parse(version, commit, date)
+
+	// Parse config file.
+	config.ParseConfig(*configFile)
+
+	lines := setupAndProcessInput(*config, os.Stdin)
 
 	// Get map of faker helper functions.
 	transformationFunctionMap = helpers.GetFakerFuncs()
@@ -59,7 +41,7 @@ func Start() {
 	}
 }
 
-func setupAndProcessInput(config Config, input io.Reader) chan chan string {
+func setupAndProcessInput(config config.Config, input io.Reader) chan chan string {
 	var wg sync.WaitGroup
 	lines := make(chan chan string, 10)
 
@@ -74,20 +56,7 @@ func setupAndProcessInput(config Config, input io.Reader) chan chan string {
 	return lines
 }
 
-func readConfigFile(filepath string) Config {
-	jsonConfig, err := ioutil.ReadFile(filepath)
-	if err != nil {
-		log.Fatalf("Failed reading config file: %s", err)
-	}
-
-	var decoded Config
-	jsonReader := strings.NewReader(string(jsonConfig))
-	jsonParser := json.NewDecoder(jsonReader)
-	jsonParser.Decode(&decoded)
-	return decoded
-}
-
-func processInput(wg *sync.WaitGroup, input io.Reader, lines chan chan string, config Config) {
+func processInput(wg *sync.WaitGroup, input io.Reader, lines chan chan string, config config.Config) {
 	defer wg.Done()
 
 	r := bufio.NewReaderSize(input, 2*1024*1024)
@@ -170,7 +139,7 @@ func processInput(wg *sync.WaitGroup, input io.Reader, lines chan chan string, c
 
 }
 
-func processLine(line string, config Config) string {
+func processLine(line string, config config.Config) string {
 
 	parsed, err := parseLine(line)
 	if err != nil {
@@ -207,7 +176,7 @@ func parseLine(line string) (sqlparser.Statement, error) {
 	return stmt, nil
 }
 
-func applyConfigToParsedLine(stmt sqlparser.Statement, config Config) (sqlparser.Statement, error) {
+func applyConfigToParsedLine(stmt sqlparser.Statement, config config.Config) (sqlparser.Statement, error) {
 
 	insert, isInsertStatement := stmt.(*sqlparser.Insert)
 	if !isInsertStatement {
@@ -223,7 +192,7 @@ func applyConfigToParsedLine(stmt sqlparser.Statement, config Config) (sqlparser
 	return modified, nil
 }
 
-func applyConfigToInserts(stmt *sqlparser.Insert, config Config) (*sqlparser.Insert, error) {
+func applyConfigToInserts(stmt *sqlparser.Insert, config config.Config) (*sqlparser.Insert, error) {
 
 	values, isValuesSlice := stmt.Rows.(sqlparser.Values)
 	if !isValuesSlice {
@@ -263,7 +232,7 @@ func applyConfigToInserts(stmt *sqlparser.Insert, config Config) (*sqlparser.Ins
 
 // TODO we're gonna have to figure out how to retain types if we ever want to
 // mask number-based fields
-func modifyValues(values sqlparser.Values, pattern ConfigPattern) (sqlparser.Values, error) {
+func modifyValues(values sqlparser.Values, pattern config.ConfigPattern) (sqlparser.Values, error) {
 
 	// TODO make this use goroutines
 	for row := range values {
@@ -307,7 +276,7 @@ func modifyValues(values sqlparser.Values, pattern ConfigPattern) (sqlparser.Val
 	return values, nil
 }
 
-func rowObeysConstraints(constraints []PatternFieldConstraint, row sqlparser.ValTuple) bool {
+func rowObeysConstraints(constraints []config.PatternFieldConstraint, row sqlparser.ValTuple) bool {
 	for _, constraint := range constraints {
 		valTupleIndex := constraint.Position - 1
 		value := row[valTupleIndex].(*sqlparser.SQLVal)
