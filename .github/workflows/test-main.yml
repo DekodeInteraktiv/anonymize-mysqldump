@@ -25,8 +25,8 @@ jobs:
 
       - name: Test local binaries
         run: |
-          go test -v .
+          go test -v ./...
 
       - name: Test benchmark performance
         run: |
-          go test -bench .
+          go test -bench ./...
