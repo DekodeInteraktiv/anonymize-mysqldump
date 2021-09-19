@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/DekodeInteraktiv/go-anonymize-mysqldump/internal/anonymize"
+	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/anonymize"
 )
 
 func main() {

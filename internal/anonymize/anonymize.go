@@ -12,9 +12,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/DekodeInteraktiv/go-anonymize-mysqldump/internal/helpers"
+	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/flag"
+	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/helpers"
 
-	"github.com/akamensky/argparse"
 	"github.com/xwb1989/sqlparser"
 )
 
@@ -46,7 +46,8 @@ var (
 )
 
 func Start() {
-	config := parseArgs()
+	configFile := flag.Parse()
+	config := readConfigFile(*configFile)
 
 	lines := setupAndProcessInput(config, os.Stdin)
 
@@ -71,21 +72,6 @@ func setupAndProcessInput(config Config, input io.Reader) chan chan string {
 	}()
 
 	return lines
-}
-
-func parseArgs() Config {
-	parser := argparse.NewParser("anonymize-mysqldump", "Reads SQL from STDIN and replaces content for anonymity based on the provided config.")
-	configFilePath := parser.String("c", "config", &argparse.Options{Required: true, Help: "Path to config.json"})
-
-	err := parser.Parse(os.Args)
-	if err != nil {
-		// In case of error print error and print usage
-		// This can also be done by passing -h or --help flags
-		fmt.Print(parser.Usage(err))
-		os.Exit(1)
-	}
-
-	return readConfigFile(*configFilePath)
 }
 
 func readConfigFile(filepath string) Config {
