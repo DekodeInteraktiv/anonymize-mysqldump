@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
+	"log"
 	"os"
 	"regexp"
 	"strings"
@@ -14,7 +15,6 @@ import (
 	"github.com/DekodeInteraktiv/go-anonymize-mysqldump/internal/helpers"
 
 	"github.com/akamensky/argparse"
-	"github.com/sirupsen/logrus"
 	"github.com/xwb1989/sqlparser"
 )
 
@@ -44,22 +44,6 @@ type PatternFieldConstraint struct {
 var (
 	transformationFunctionMap map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal
 )
-
-// Many thanks to https://stackoverflow.com/a/47515580/1454045
-func init() {
-	lvl, ok := os.LookupEnv("LOG_LEVEL")
-	// LOG_LEVEL not set, let's default to info
-	if !ok {
-		lvl = "info"
-	}
-	// parse string, this is built-in feature of logrus
-	ll, err := logrus.ParseLevel(lvl)
-	if err != nil {
-		ll = logrus.InfoLevel
-	}
-	// set global log level
-	logrus.SetLevel(ll)
-}
 
 func Start() {
 	config := parseArgs()
@@ -107,7 +91,7 @@ func parseArgs() Config {
 func readConfigFile(filepath string) Config {
 	jsonConfig, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		logrus.Fatal(err)
+		log.Fatalf("Failed reading config file: %s", err)
 	}
 
 	var decoded Config
@@ -134,7 +118,7 @@ func processInput(wg *sync.WaitGroup, input io.Reader, lines chan chan string, c
 			continueLooping = false
 		} else if err != nil {
 			// log any other errors and break
-			logrus.Error(err.Error())
+			log.Printf("Error: Failed while reading SQL file: %s", err)
 			break
 		}
 
@@ -205,24 +189,24 @@ func processLine(line string, config Config) string {
 	parsed, err := parseLine(line)
 	if err != nil {
 		// TODO Add line number to log
-		logrus.WithFields(logrus.Fields{
-			"error": err,
-			"line":  line,
-		}).Error("Failed parsing line with error: ")
+		log.Printf("Error: Failed parsing line: %s. With error: %s", line, err)
 		return line
 	}
 
 	// TODO Detect if line matches pattern
 	processed, err := applyConfigToParsedLine(parsed, config)
+	if err != nil {
+		// TODO: Handle error.
+		log.Printf("Error: Failed parsing line: %s, with error: %s", line, err)
+	}
+
 	// TODO make modifications
 
 	// TODO Return changes
 	recompiled, err := recompileStatementToSQL(processed)
 	if err != nil {
 		// TODO Add line number to log
-		logrus.WithFields(logrus.Fields{
-			"error": err,
-		}).Error("Failed recompiling line with error: ")
+		log.Printf("Error: Failed recompiling line: %s, with error: %s", line, err)
 		return line
 	}
 	return recompiled
@@ -314,10 +298,7 @@ func modifyValues(values sqlparser.Values, pattern ConfigPattern) (sqlparser.Val
 				// TODO in the event a transformation function isn't correctly defined,
 				// should we actually exit? Should we exit or fail softly whenever
 				// something goes wrong in general?
-				logrus.WithFields(logrus.Fields{
-					"type":  fieldPattern.Type,
-					"field": fieldPattern.Field,
-				}).Error("Failed applying transformation type for field")
+				log.Printf("Error: Transform function missing, type: %s, field: %s.", fieldPattern.Type, fieldPattern.Field)
 				continue
 			}
 
@@ -346,10 +327,9 @@ func rowObeysConstraints(constraints []PatternFieldConstraint, row sqlparser.Val
 		value := row[valTupleIndex].(*sqlparser.SQLVal)
 
 		parsedValue := convertSQLValToString(value)
-		logrus.WithFields(logrus.Fields{
-			"parsedValue":      parsedValue,
-			"constraint.value": constraint.Value,
-		}).Trace("Debuging constraint obediance: ")
+		// TODO: Add behing a flag for debugging.
+		//log.Printf("Error: Constraint obediance, parsed value: %s, constraint value: %s.", parsedValue, constraint.Value)
+
 		if parsedValue != constraint.Value {
 			return false
 		}
