@@ -1,4 +1,4 @@
-module dekodeinteraktiv/go-anonymize-mysqldump
+module github.com/DekodeInteraktiv/go-anonymize-mysqldump
 
 go 1.17
 
