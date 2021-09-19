@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/DekodeInteraktiv/go-anonymize-mysqldump/internal/helpers"
+	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/helpers"
 
 	"syreclabs.com/go/faker"
 )
