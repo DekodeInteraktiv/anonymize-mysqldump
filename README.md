@@ -1,6 +1,6 @@
 # Anonymize Mysqldump Tool
 
-[![Test Main Branch](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump/actions/workflows/test-main.yml/badge.svg?branch=main)](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump/actions/workflows/test-main.yml)
+[![Test Main Branch](https://github.com/DekodeInteraktiv/anonymize-mysqldump/actions/workflows/test-main.yml/badge.svg?branch=main)](https://github.com/DekodeInteraktiv/anonymize-mysqldump/actions/workflows/test-main.yml)
 
 Allows you to pipe data from `mysqldump` and anonymize it:
 
@@ -28,12 +28,12 @@ Arguments:
 
 ## Installation
 
-You can download the binary for your system from the [Releases](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump/releases/) page. Once downloaded and unarchived, move it to a location in your path such as `/usr/local/bin` and make it executable. For instance, to download the MacOS binary for 64 bit platforms (this is most common):
+You can download the binary for your system from the [Releases](https://github.com/DekodeInteraktiv/anonymize-mysqldump/releases/) page. Once downloaded and unarchived, move it to a location in your path such as `/usr/local/bin` and make it executable. For instance, to download the MacOS binary for 64 bit platforms (this is most common):
 
 ```sh
-curl -OL https://github.com/DekodeInteraktiv/go-anonymize-mysqldump/releases/download/latest/go-anonymize-mysqldump_darwin_amd64.gz
-gunzip go-anonymize-mysqldump_darwin_amd64.gz
-mv go-anonymize-mysqldump_darwin_amd64 /usr/local/bin/anonymize-mysqldump
+curl -OL https://github.com/DekodeInteraktiv/anonymize-mysqldump/releases/download/latest/anonymize-mysqldump_darwin_amd64.gz
+gunzip anonymize-mysqldump_darwin_amd64.gz
+mv anonymize-mysqldump_darwin_amd64 /usr/local/bin/anonymize-mysqldump
 chmod +x /usr/local/bin/anonymize-mysqldump
 ```
 
@@ -42,7 +42,7 @@ chmod +x /usr/local/bin/anonymize-mysqldump
 This tool is designed to read a file stream over STDIN and produce an output over STDOUT. A config file is required and can be provided via the `-c` or `--config` flag. An example config for anonymizing a WordPress database is provided at [`config.example.json`](./config.example.json):
 
 ```sh
-curl -LO https://raw.githubusercontent.com/DekodeInteraktiv/go-anonymize-mysqldump/main/config.example.json
+curl -LO https://raw.githubusercontent.com/DekodeInteraktiv/anonymize-mysqldump/main/config.example.json
 ```
 
 Whenever the tool experiences an error, it will output a log to STDERR. If you wish to not see that output while the command is running, redirect it to some other file (or `/dev/null` if you don't care):
@@ -80,7 +80,7 @@ The config is composed of many objects in the `patterns` array:
 
 Supposing you have a WordPress database and you need to modify certain meta, be it user meta, post meta, or comment meta. You can use `constraints` to update data only whenever a certain condition is matched. For instance, let's say you have a user meta key `last_ip_address`. If you wanted to change that value, you can use the following config in the `fields` array:
 
-```
+```json
 {
   "field": "meta_value",
   "position": 4,
@@ -100,29 +100,31 @@ Supposing you have a WordPress database and you need to modify certain meta, be 
 
 Each column stores a certain type of data, be it a name, username, email, etc. The `type` property in the config is used to define the type of data stored, and ultimately the type of random data to be inserted into the field. [https://github.com/dmgk/faker](https://github.com/dmgk/faker) is used for generating the fake data. These are the types currently supported:
 
-- `username` - `micah_pfeffer`
-- `password` - `5ccf672d5c73748146be6b37568efa57`
-- `email` - `maritza@farrell.org`
-- `url` - `http://sporerhamill.net/kyla.schmitt`
-- `name` - `Natasha Hartmann`
-- `firstName` - `Carolina`
-- `lastName` - `Kohler`
-- `phoneNumber` - `+49-131-0003060`
-- `addressFull` - `6071 Heaney Island Suite 553, Ebbaville Texas 37307`
-- `addressStreet` - `"586 Sylvester Turnpike"`
-- `addressPostCode` - `31340`
-- `addressCountry` - `Uruguay`
-- `paragraph` - `Lorem ipsum dolor sit amet, fabulas nostrum recteque vel ea, sit ut nemore similique. Ad per dicam molestie, nostro constituto duo ad. Ex scripta impedit cum, vidisse feugiat vivendum cum ad, cu liber senserit mediocrem pro.`
-- `shortString` - `wqFyJIrXYfVP7cLwqFyJIrXYfVP7cL`
-- `ipv4` - `121.204.82.227`
-- `companyName` - `Aufderhar LLC`
-- `companyNumber` - `123456789`
-- `creditCardNumber` - `1234-2121-1221-1211`
-- `creditCardExpiryDate` - `2015-11-11`
-- `creditCardType` - `mastercard`
+| Type                   | Example output |
+| ---                    | ---            |
+| `username`             | `micah_pfeffer` |
+| `password`             | `5ccf672d5c73748146be6b37568efa57` |
+| `email`                | `maritza@farrell.org` |
+| `url`                  | `http://sporerhamill.net/kyla.schmitt` |
+| `name`                 | `Natasha Hartmann` |
+| `firstName`            | `Carolina` |
+| `lastName`             | `Kohler` |
+| `phoneNumber`          | `+49-131-0003060` |
+| `addressFull`          | `6071 Heaney Island Suite 553, Ebbaville Texas 37307` |
+| `addressStreet`        | `"586 Sylvester Turnpike"` |
+| `addressPostCode`      | `31340` |
+| `addressCountry`       | `Uruguay` |
+| `paragraph`            | `Lorem ipsum dolor sit amet, fabulas nostrum recteque vel ea, sit ut nemore similique. Ad per dicam molestie, nostro constituto duo ad. Ex scripta impedit cum, vidisse feugiat vivendum cum ad, cu liber senserit mediocrem pro.` |
+| `shortString`          | `wqFyJIrXYfVP7cLwqFyJIrXYfVP7cL` |
+| `ipv4`                 | `121.204.82.227` |
+| `companyName`          | `Aufderhar LLC` |
+| `companyNumber`        | `123456789` |
+| `creditCardNumber`     | `1234-2121-1221-1211` |
+| `creditCardExpiryDate` | `2015-11-11` |
+| `creditCardType`       | `mastercard` |
 
 If you need another type, please feel free to add support and file a PR!
 
 ## Credit
 
-Many thanks to [`Automattic/go-search-replace`](https://github.com/Automattic/go-search-replace) for serving as the starting point for this tool, and [`HumanMade/go-anonymize-mysqldump`](https://github.com/DekodeInteraktiv/go-anonymize-mysqldump) for their improvements. Also many thanks to [`xwb1989/sqlparser`](https://github.com/xwb1989/sqlparser) for the SQL parsing library. We wouldn't have been able to do this without them!
+Many thanks to [`Automattic/go-search-replace`](https://github.com/Automattic/go-search-replace) for serving as the starting point for this tool, and [`HumanMade/go-anonymize-mysqldump`](https://github.com/HumanMade/go-anonymize-mysqldump) for their improvements. Also many thanks to [`xwb1989/sqlparser`](https://github.com/xwb1989/sqlparser) for the SQL parsing library. We wouldn't have been able to do this without them!
