@@ -1,4 +1,4 @@
-package main
+package helpers
 
 import (
 	"crypto/md5"
@@ -7,6 +7,34 @@ import (
 	"github.com/xwb1989/sqlparser"
 	"syreclabs.com/go/faker"
 )
+
+// GetFakerFuncs creates a map of faker helper functions.
+func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
+	fakerHelpers := map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal{
+		"username":             generateUsername,
+		"password":             generatePassword,
+		"email":                generateEmail,
+		"url":                  generateURL,
+		"name":                 generateName,
+		"firstName":            generateFirstName,
+		"lastName":             generateLastName,
+		"phoneNumber":          generatePhoneNumber,
+		"addressFull":          generateAddress,
+		"addressStreet":        generateStreetAddress,
+		"addressPostCode":      generatePostcode,
+		"addressCountry":       generateCountry,
+		"paragraph":            generateParagraph,
+		"shortString":          generateShortString,
+		"ipv4":                 generateIPv4,
+		"companyName":          generateCompanyName,
+		"companyNumber":        generateCompanyNumber,
+		"creditCardNumber":     generateCreditCardNumber,
+		"creditCardExpiryDate": generateCreditCardExpiryDate,
+		"creditCardType":       generateCreditCardType,
+	}
+
+	return fakerHelpers
+}
 
 func generateUsername(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Internet().UserName()))

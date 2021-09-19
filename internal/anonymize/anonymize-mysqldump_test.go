@@ -1,8 +1,10 @@
-package main
+package anonymize
 
 import (
 	"bytes"
 	"testing"
+
+	"github.com/DekodeInteraktiv/go-anonymize-mysqldump/internal/helpers"
 
 	"syreclabs.com/go/faker"
 )
@@ -40,7 +42,9 @@ var (
 
 func init() {
 	faker.Seed(432)
-	jsonConfig = readConfigFile("./config.example.json")
+	jsonConfig = readConfigFile("../../config.example.json")
+	// Get map of faker helper functions.
+	transformationFunctionMap = helpers.GetFakerFuncs()
 }
 
 func BenchmarkProcessLine(b *testing.B) {

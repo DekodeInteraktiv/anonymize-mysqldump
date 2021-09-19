@@ -1,4 +1,4 @@
-package main
+package anonymize
 
 import (
 	"bufio"
@@ -10,6 +10,8 @@ import (
 	"regexp"
 	"strings"
 	"sync"
+
+	"github.com/DekodeInteraktiv/go-anonymize-mysqldump/internal/helpers"
 
 	"github.com/akamensky/argparse"
 	"github.com/sirupsen/logrus"
@@ -40,28 +42,7 @@ type PatternFieldConstraint struct {
 }
 
 var (
-	transformationFunctionMap = map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal{
-		"username":             generateUsername,
-		"password":             generatePassword,
-		"email":                generateEmail,
-		"url":                  generateURL,
-		"name":                 generateName,
-		"firstName":            generateFirstName,
-		"lastName":             generateLastName,
-		"phoneNumber":          generatePhoneNumber,
-		"addressFull":          generateAddress,
-		"addressStreet":        generateStreetAddress,
-		"addressPostCode":      generatePostcode,
-		"addressCountry":       generateCountry,
-		"paragraph":            generateParagraph,
-		"shortString":          generateShortString,
-		"ipv4":                 generateIPv4,
-		"companyName":          generateCompanyName,
-		"companyNumber":        generateCompanyNumber,
-		"creditCardNumber":     generateCreditCardNumber,
-		"creditCardExpiryDate": generateCreditCardExpiryDate,
-		"creditCardType":       generateCreditCardType,
-	}
+	transformationFunctionMap map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal
 )
 
 // Many thanks to https://stackoverflow.com/a/47515580/1454045
@@ -80,10 +61,13 @@ func init() {
 	logrus.SetLevel(ll)
 }
 
-func main() {
+func Start() {
 	config := parseArgs()
 
 	lines := setupAndProcessInput(config, os.Stdin)
+
+	// Get map of faker helper functions.
+	transformationFunctionMap = helpers.GetFakerFuncs()
 
 	for line := range lines {
 		fmt.Print(<-line)
