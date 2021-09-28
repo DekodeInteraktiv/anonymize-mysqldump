@@ -14,6 +14,7 @@ import (
 
 	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/flag"
 	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/helpers"
+	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/progress"
 
 	"github.com/xwb1989/sqlparser"
 )
@@ -49,6 +50,8 @@ func Start() {
 	configFile := flag.Parse()
 	config := readConfigFile(*configFile)
 
+	progress.Start()
+
 	lines := setupAndProcessInput(config, os.Stdin)
 
 	// Get map of faker helper functions.
@@ -57,6 +60,8 @@ func Start() {
 	for line := range lines {
 		fmt.Print(<-line)
 	}
+
+	progress.Stop()
 }
 
 func setupAndProcessInput(config Config, input io.Reader) chan chan string {
