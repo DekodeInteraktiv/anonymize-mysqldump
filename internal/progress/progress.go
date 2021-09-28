@@ -9,13 +9,14 @@ import (
 
 var s *spinner.Spinner
 
-// Start progress bar.
+// Start the progress.
 func Start() {
 	s = spinner.New(spinner.CharSets[35], 250*time.Millisecond, spinner.WithWriter(os.Stderr))
 	s.Suffix = " Anonymizing data..."
 	s.Start()
 }
 
+// Stop the progress.
 func Stop() {
 	s.Stop()
 }
