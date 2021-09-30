@@ -5,18 +5,20 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/embed"
 )
 
 type Config struct {
-	Name     string
-	Version  string
-	Commit   string
-	Date     string
-	WD       string
-	Patterns []ConfigPattern `json:"patterns"`
+	Name        string
+	ProcessName string
+	Version     string
+	Commit      string
+	Date        string
+	WD          string
+	Patterns    []ConfigPattern `json:"patterns"`
 }
 
 type ConfigPattern struct {
@@ -41,10 +43,11 @@ type PatternFieldConstraint struct {
 // New creates a new Config from flags and environment variables
 func New(version, commit, date string) *Config {
 	c := &Config{
-		Name:    "Anomymize MySQLDump",
-		Version: version,
-		Commit:  commit,
-		Date:    date,
+		Name:        "Anomymize MySQLDump",
+		ProcessName: filepath.Base(os.Args[0]),
+		Version:     version,
+		Commit:      commit,
+		Date:        date,
 	}
 
 	// Get Working Dir
