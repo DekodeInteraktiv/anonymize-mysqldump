@@ -36,6 +36,7 @@ func Start(version, commit, date string) {
 	// Parse config file.
 	config.ParseConfig(*configFile)
 
+	// Check Stdin is piped data.
 	stat, _ := os.Stdin.Stat()
 	if (stat.Mode() & os.ModeCharDevice) != 0 {
 		message := `No input provided. Perhaps you intended to pipe the content of a SQL file in here?
