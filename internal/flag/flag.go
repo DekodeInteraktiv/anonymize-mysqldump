@@ -1,18 +1,20 @@
 package flag
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
 	"github.com/spf13/pflag"
 )
 
-const (
-	helpText = `Anonymize MySQLDump is a database anonymization tool.
+func Parse(version, commit, date, processName string) *string {
+	helpText := `Anonymize MySQLDump is a database anonymization tool.
+Version: ` + version + `
+Commit: ` + commit + `
+Date: ` + date + `
 
 Usage:
-  anonymize-mysqldump [flags]
+  ` + processName + ` [flags]
 
 Flags:
   --help -h      Outputs help text and exits.
@@ -20,11 +22,6 @@ Flags:
 
 Config:
   The anonymizer will use a default config suitable for WordPress, but you can override this by providing your own.`
-)
-
-func Parse() *string {
-	pflag.CommandLine.ParseErrorsWhitelist.UnknownFlags = true
-	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 
 	flagConfigFile := pflag.String("config", "", "Path to config file.")
 	flagHelp := pflag.BoolP("help", "h", false, "")

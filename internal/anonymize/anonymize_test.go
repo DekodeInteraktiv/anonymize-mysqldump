@@ -4,13 +4,14 @@ import (
 	"bytes"
 	"testing"
 
+	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/config"
 	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/helpers"
 
 	"syreclabs.com/go/faker"
 )
 
 var (
-	jsonConfig         Config
+	jsonConfig         config.Config
 	dropAndCreateTable = "DROP TABLE IF EXISTS `wp_options`;\n" +
 		"/*!40101 SET @saved_cs_client     = @@character_set_client */;\n" +
 		"/*!40101 SET character_set_client = utf8 */;\n" +
@@ -42,7 +43,10 @@ var (
 
 func init() {
 	faker.Seed(432)
-	jsonConfig = readConfigFile("../../config.example.json")
+
+	jsonConfig = *config.New("", "", "")
+	jsonConfig.ParseConfig("")
+
 	// Get map of faker helper functions.
 	transformationFunctionMap = helpers.GetFakerFuncs()
 }
