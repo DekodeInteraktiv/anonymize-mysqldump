@@ -26,10 +26,25 @@ func Start(version, commit, date string) {
 	config := config.New(version, commit, date)
 
 	// Parse flags for custom config file.
-	configFile := flag.Parse(version, commit, date)
+	configFile := flag.Parse(version, commit, date, config.ProcessName)
 
 	// Parse config file.
 	config.ParseConfig(*configFile)
+
+	// Check for Stdin.
+	file := os.Stdin
+	fi, err := file.Stat()
+	if err != nil {
+		log.Fatalln("os.Stdin error:", err)
+	}
+
+	// Check Stdin has data.
+	size := fi.Size()
+	if size == 0 {
+		message := `No input provided. Perhaps you intended to pipe the content of a SQL file in here? e.g. cat ./raw.sql | ` + config.ProcessName + ` > ./anonymized.sql`
+
+		log.Fatalln(message)
+	}
 
 	lines := setupAndProcessInput(*config, os.Stdin)
 

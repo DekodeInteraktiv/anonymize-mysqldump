@@ -7,14 +7,14 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func Parse(version, commit, date string) *string {
+func Parse(version, commit, date, processName string) *string {
 	helpText := `Anonymize MySQLDump is a database anonymization tool.
 Version: ` + version + `
 Commit: ` + commit + `
 Date: ` + date + `
 
 Usage:
-  anonymize-mysqldump [flags]
+  ` + processName + ` [flags]
 
 Flags:
   --help -h      Outputs help text and exits.
