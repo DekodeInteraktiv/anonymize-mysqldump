@@ -25,6 +25,11 @@ func Start(version, commit, date string) {
 	// Create new config.
 	config := config.New(version, commit, date)
 
+	// Setup logging.
+	log.SetPrefix("")
+	log.SetFlags(0)
+	log.SetOutput(os.Stderr)
+
 	// Parse flags for custom config file.
 	configFile := flag.Parse(version, commit, date, config.ProcessName)
 
@@ -41,7 +46,10 @@ func Start(version, commit, date string) {
 	// Check Stdin has data.
 	size := fi.Size()
 	if size == 0 {
-		message := `No input provided. Perhaps you intended to pipe the content of a SQL file in here? e.g. cat ./raw.sql | ` + config.ProcessName + ` > ./anonymized.sql`
+		message := `No input provided. Perhaps you intended to pipe the content of a SQL file in here?
+
+For example:
+	cat ./raw.sql | ` + config.ProcessName + ` > ./anonymized.sql`
 
 		log.Fatalln(message)
 	}
@@ -54,6 +62,7 @@ func Start(version, commit, date string) {
 	for line := range lines {
 		fmt.Print(<-line)
 	}
+
 }
 
 func setupAndProcessInput(config config.Config, input io.Reader) chan chan string {
