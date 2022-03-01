@@ -77,5 +77,10 @@ func (c *Config) ParseConfig(filepath string) {
 
 	jsonReader := strings.NewReader(string(jsonConfig))
 	jsonParser := json.NewDecoder(jsonReader)
-	jsonParser.Decode(c)
+	err = jsonParser.Decode(c)
+
+	// Make sure the JSON read is valid.
+	if err != nil {
+		log.Fatalf("JSON file not valid!")
+	}
 }
