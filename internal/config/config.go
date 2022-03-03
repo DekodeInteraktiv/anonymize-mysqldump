@@ -24,6 +24,7 @@ type Config struct {
 type ConfigPattern struct {
 	TableName      string         `json:"tableName"`
 	TableNameRegex string         `json:"tableNameRegex"`
+	Purge          bool           `json:"purge"`
 	Fields         []PatternField `json:"fields"`
 }
 
