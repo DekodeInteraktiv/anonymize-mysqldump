@@ -65,8 +65,7 @@ An example config for anonymizing a WordPress database is provided at [`config.e
 The config is composed of many objects in the `patterns` array:
 
 - `patterns`: an array of objects defining what modifications should be made.
-  - `tableName`: the name of the table the data will be stored in (used to parse `INSERT` statements to d	etermine if the query should be modified.)
-  - `tableNameRegex`: regex to identify the relevant tables, required for multisite compatibility e.g. `.*_comments`.
+  - `tableName`: the name of the table the data will be stored in (used to parse `INSERT` statements to determine if the query should be modified.). You can also use regex to identify the relevant tables, required for multisite compatibility e.g. `.*_comments`.
   - `fields`: an array of objects defining modifications to individual values' fields
     - `field`: a string representing the name of the field. Not currently used, but still required to work and useful for debugging.
     - `position`: the 1-based index of what number column this field represents. For instance, assuming a table with 3 columns `foo`, `bar`, and `baz`, and you wished to modify the `bar` column, this value would be `2`.

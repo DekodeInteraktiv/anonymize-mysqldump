@@ -229,8 +229,9 @@ func applyConfigToInserts(stmt *sqlparser.Insert, config config.Config) (*sqlpar
 				continue
 			}
 		} else {
-			if stmt.Table.Name.String() != pattern.TableName {
-				// Config is not for this table, move onto next available config
+			re := regexp.MustCompile(pattern.TableName)
+			match := re.MatchString(stmt.Table.Name.String())
+			if !match {
 				continue
 			}
 		}
