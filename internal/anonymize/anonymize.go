@@ -2,6 +2,7 @@ package anonymize
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -168,6 +169,9 @@ func processLine(line string, config config.Config) string {
 	// TODO Detect if line matches pattern
 	processed, err := applyConfigToParsedLine(parsed, config)
 	if err != nil {
+		if err.Error() == "purged" {
+			return ""
+		}
 		// TODO: Handle error.
 		log.Printf("Error: Failed parsing line: %s, with error: %s", line, err)
 	}
@@ -204,7 +208,7 @@ func applyConfigToParsedLine(stmt sqlparser.Statement, config config.Config) (sq
 	modified, err := applyConfigToInserts(insert, config)
 	if err != nil {
 		// TODO Log error and move on
-		return stmt, nil
+		return stmt, err
 	}
 	return modified, nil
 }
@@ -234,6 +238,11 @@ func applyConfigToInserts(stmt *sqlparser.Insert, config config.Config) (*sqlpar
 			if !match {
 				continue
 			}
+		}
+
+		// Skip if purge.
+		if pattern.Purge {
+			return stmt, errors.New("purged")
 		}
 
 		// Ok, now it's time to make some modifications
