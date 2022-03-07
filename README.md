@@ -28,6 +28,7 @@ Arguments:
 
 ## Installation
 
+### Built binaries
 You can download the binary for your system from the [Releases](https://github.com/DekodeInteraktiv/anonymize-mysqldump/releases/) page. Once downloaded and unarchived, move it to a location in your path such as `/usr/local/bin` and make it executable. For instance, to download the MacOS binary for 64 bit platforms (this is most common):
 
 ```sh
@@ -36,6 +37,21 @@ gunzip anonymize-mysqldump_darwin_amd64.gz
 mv anonymize-mysqldump_darwin_amd64 /usr/local/bin/anonymize-mysqldump
 chmod +x /usr/local/bin/anonymize-mysqldump
 ```
+
+### Direct from source
+You can clone this Git repository and build the project locally your self, you will then need a local [Golang](https://go.dev/) environment.
+
+```sh
+git clone https://github.com/DekodeInteraktiv/anonymize-mysqldump anonymize-mysqldump
+cd anonymize-mysqldump
+go install ./...
+```
+
+The above will install a copy to your `PATH`. You can also just build the executable and move it where you prefer using `go build ./...`, do take note of the **three** dots after the forward slash, which will make sure the build includes subdirectories.
+
+#### Running tests
+
+Golang comes with a test suite built in, you can run the tests on every file in a project using `go test ./...`
 
 ## Usage
 
@@ -62,10 +78,23 @@ Important things to be aware of!
 
 An example config for anonymizing a WordPress database is provided at [`config.example.json`](./config.example.json).
 
+```json
+{
+  "patterns": [
+    {
+      "tableName": "wp_users",
+      "purge": false,
+      "fields": []
+    }
+  ]
+}
+```
+
 The config is composed of many objects in the `patterns` array:
 
 - `patterns`: an array of objects defining what modifications should be made.
   - `tableName`: the name of the table the data will be stored in (used to parse `INSERT` statements to determine if the query should be modified.). You can also use regex to identify the relevant tables, required for multisite compatibility e.g. `.*_comments`.
+  - `purge`: Optional `boolean` field, if set to `true` then any `INSERT` query matching the table name will be stripped out, avoiding accidentally including data that can't be anonymized in your final result.
   - `fields`: an array of objects defining modifications to individual values' fields
     - `field`: a string representing the name of the field. Not currently used, but still required to work and useful for debugging.
     - `position`: the 1-based index of what number column this field represents. For instance, assuming a table with 3 columns `foo`, `bar`, and `baz`, and you wished to modify the `bar` column, this value would be `2`.
