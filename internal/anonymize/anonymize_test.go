@@ -45,7 +45,8 @@ func init() {
 	faker.Seed(432)
 
 	jsonConfig = *config.New("", "", "")
-	jsonConfig.ParseConfig("")
+	presets := make([]string, 0)
+	jsonConfig.ParseConfig("", presets)
 
 	// Get map of faker helper functions.
 	transformationFunctionMap = helpers.GetFakerFuncs()
