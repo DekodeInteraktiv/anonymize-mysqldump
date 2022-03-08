@@ -1,12 +1,12 @@
 {
     "patterns": [
         {
-            "tableName": "wp_woocommerce_sessions",
+            "tableName": ".*_woocommerce_sessions",
             "purge": true,
             "fields": []
         },
         {
-            "tableName": "wp_wc_customer_lookup",
+            "tableName": ".*_wc_customer_lookup",
             "fields": [
                 {
                     "field": "username",
@@ -59,7 +59,7 @@
             ]
         },
         {
-            "tableName": "wp_postmeta",
+            "tableName": ".*_postmeta",
             "fields": [
                 {
                     "field": "meta_value",
@@ -208,7 +208,7 @@
             ]
         },
         {
-            "tableName": "wp_usermeta",
+            "tableName": ".*_usermeta",
             "fields": [
                 {
                     "field": "meta_value",
