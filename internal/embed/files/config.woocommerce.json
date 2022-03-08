@@ -1,0 +1,336 @@
+{
+    "patterns": [
+        {
+            "tableName": "wp_woocommerce_sessions",
+            "purge": true,
+            "fields": []
+        },
+        {
+            "tableName": "wp_wc_customer_lookup",
+            "fields": [
+                {
+                    "field": "username",
+                    "position": 3,
+                    "type": "username",
+                    "constraints": null
+                },
+                {
+                    "field": "first_name",
+                    "position": 4,
+                    "type": "firstName",
+                    "constraints": null
+                },
+                {
+                    "field": "last_name",
+                    "position": 5,
+                    "type": "lastName",
+                    "constraints": null
+                },
+                {
+                    "field": "email",
+                    "position": 6,
+                    "type": "email",
+                    "constraints": null
+                },
+                {
+                    "field": "country",
+                    "position": 9,
+                    "type": "addressCountry",
+                    "constraints": null
+                },
+                {
+                    "field": "postcode",
+                    "position": 10,
+                    "type": "addressPostCode",
+                    "constraints": null
+                },
+                {
+                    "field": "city",
+                    "position": 11,
+                    "type": "addressCity",
+                    "constraints": null
+                },
+                {
+                    "field": "state",
+                    "position": 12,
+                    "type": "addressState",
+                    "constraints": null
+                }
+            ]
+        },
+        {
+            "tableName": "wp_postmeta",
+            "fields": [
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "ipv4",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_customer_ip_address"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "firstName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_first_name"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "lastName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_last_name"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "companyName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_company"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressStreet",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_address_1"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "shortString",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_city"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "shortString",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_state"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressPostCode",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_postcode"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressPostCode",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_country"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "email",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_email"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "phoneNumber",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_phone"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "shortString",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_billing_address_index"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tableName": "wp_usermeta",
+            "fields": [
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "firstName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_first_name"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "lastName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_last_name"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "companyName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_company"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressStreet",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_address_1"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "shortString",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_city"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "shortString",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_state"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressPostCode",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_postcode"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressPostCode",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_country"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "email",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_email"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "phoneNumber",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "billing_phone"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

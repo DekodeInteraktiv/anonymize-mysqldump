@@ -1,9 +1,9 @@
 package embed
 
 import (
-	_ "embed"
+	"embed"
 )
 
-//go:embed files/config.default.json
-// DefaultConfig contains the contents of the default config file.
-var DefaultConfig string
+//go:embed files/*
+// Content contains a filesystem of config files.
+var Content embed.FS
