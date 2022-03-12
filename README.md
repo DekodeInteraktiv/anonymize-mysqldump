@@ -153,6 +153,10 @@ Each column stores a certain type of data, be it a name, username, email, etc. T
 
 If you need another type, please feel free to add support and file a PR!
 
+## Releases
+
+The releases are built by [GoReleaser](https://goreleaser.com) which automatically generates binaries for various operating systems and creates a Github release with them.
+
 ## Credit
 
 Many thanks to [`Automattic/go-search-replace`](https://github.com/Automattic/go-search-replace) for serving as the starting point for this tool, and [`HumanMade/go-anonymize-mysqldump`](https://github.com/HumanMade/go-anonymize-mysqldump) for their improvements. Also many thanks to [`xwb1989/sqlparser`](https://github.com/xwb1989/sqlparser) for the SQL parsing library. We wouldn't have been able to do this without them!

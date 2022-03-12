@@ -2,3 +2,4 @@ build
 vendor
 *.sql
 go-anonymize-mysqldump
+dist/
