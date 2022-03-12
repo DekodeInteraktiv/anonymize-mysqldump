@@ -1,0 +1,108 @@
+{
+    "patterns": [
+        {
+            "tableName": ".*_give_donationmeta",
+            "fields": [
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "firstName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_billing_first_name"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "lastName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_billing_last_name"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "email",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_payment_donor_email"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "ipv4",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_payment_donor_ip"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tableName": ".*_give_donormeta",
+            "fields": [
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "firstName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_first_name"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "lastName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_last_name"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "tableName": ".*_give_donors",
+            "fields": [
+                {
+                    "field": "email",
+                    "position": 3,
+                    "type": "email",
+                    "constraints": null
+                },
+                {
+                    "field": "name",
+                    "position": 4,
+                    "type": "name",
+                    "constraints": null
+                }
+            ]
+        },
+        {
+            "tableName": ".*_give_sessions",
+            "purge": true,
+            "fields": []
+        }
+    ]
+}
