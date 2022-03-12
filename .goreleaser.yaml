@@ -1,0 +1,4 @@
+# Goreleaser Config
+
+builds:
+- main: ./cmd/anonymize-mysqldump
