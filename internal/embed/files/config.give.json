@@ -50,6 +50,102 @@
                             "value": "_give_payment_donor_ip"
                         }
                     ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressStreet",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_billing_address1"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressStreet",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_billing_address2"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressCity",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_billing_city"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressPostCode",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_billing_zip"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressState",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_billing_state"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "addressCountry",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donor_billing_country"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "companyName",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_donation_company"
+                        }
+                    ]
+                },
+                {
+                    "field": "meta_value",
+                    "position": 4,
+                    "type": "shortString",
+                    "constraints": [
+                        {
+                            "field": "meta_key",
+                            "position": 3,
+                            "value": "_give_payment_transaction_id"
+                        }
+                    ]
                 }
             ]
         },
