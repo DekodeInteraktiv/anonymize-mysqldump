@@ -31,7 +31,7 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"creditCardNumber":     generateCreditCardNumber,
 		"creditCardExpiryDate": generateCreditCardExpiryDate,
 		"creditCardType":       generateCreditCardType,
-		"purge"                 generateEmptyString,
+		"purge":                generateEmptyString,
 	}
 
 	return fakerHelpers
