@@ -233,7 +233,7 @@ func applyConfigToInserts(stmt *sqlparser.Insert, config config.Config) (*sqlpar
 				continue
 			}
 		} else {
-			re := regexp.MustCompile(pattern.TableName)
+			re := regexp.MustCompile(fmt.Sprintf("^%s$", pattern.TableName))
 			match := re.MatchString(stmt.Table.Name.String())
 			if !match {
 				continue
