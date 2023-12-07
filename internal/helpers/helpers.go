@@ -3,10 +3,20 @@ package helpers
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"sync"
 
 	"github.com/xwb1989/sqlparser"
 	"syreclabs.com/go/faker"
 )
+
+var (
+	usedEmails map[string]bool
+	mu         sync.Mutex
+)
+
+func init() {
+	usedEmails = make(map[string]bool)
+}
 
 // GetFakerFuncs creates a map of faker helper functions.
 func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
@@ -47,7 +57,19 @@ func generatePassword(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 }
 
 func generateEmail(value *sqlparser.SQLVal) *sqlparser.SQLVal {
-	return sqlparser.NewStrVal([]byte(faker.Internet().SafeEmail()))
+	mu.Lock()
+	defer mu.Unlock()
+
+	var email string
+	for {
+		email = faker.Internet().SafeEmail()
+		if !usedEmails[email] {
+			usedEmails[email] = true
+			break
+		}
+	}
+
+	return sqlparser.NewStrVal([]byte(email))
 }
 
 func generatePhoneNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
@@ -119,5 +141,5 @@ func generateShortString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 }
 
 func generateEmptyString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
-     return sqlparser.NewStrVal([]byte(""))
+	return sqlparser.NewStrVal([]byte(""))
 }
