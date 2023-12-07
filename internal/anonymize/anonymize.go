@@ -227,13 +227,19 @@ func applyConfigToInserts(stmt *sqlparser.Insert, config config.Config) (*sqlpar
 	// TODO make this use goroutines
 	for _, pattern := range config.Patterns {
 		if pattern.TableNameRegex != "" {
-			re := regexp.MustCompile(pattern.TableNameRegex)
+			if !strings.HasSuffix(pattern.TableNameRegex, "$") {
+				pattern.TableNameRegex += "$"
+			}
+			re := regexp.MustCompile(fmt.Sprintf("^%s", pattern.TableNameRegex))
 			match := re.MatchString(stmt.Table.Name.String())
 			if !match {
 				continue
 			}
 		} else {
-			re := regexp.MustCompile(fmt.Sprintf("^%s$", pattern.TableName))
+			if !strings.HasSuffix(pattern.TableName, "$") {
+				pattern.TableName += "$"
+			}
+			re := regexp.MustCompile(fmt.Sprintf("^%s", pattern.TableName))
 			match := re.MatchString(stmt.Table.Name.String())
 			if !match {
 				continue
