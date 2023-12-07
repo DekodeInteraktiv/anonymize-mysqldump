@@ -31,8 +31,10 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"phoneNumber":          generatePhoneNumber,
 		"addressFull":          generateAddress,
 		"addressStreet":        generateStreetAddress,
+		"addressCity":          generateCity,
 		"addressPostCode":      generatePostcode,
 		"addressCountry":       generateCountry,
+		"addressState":         generateState,
 		"paragraph":            generateParagraph,
 		"shortString":          generateShortString,
 		"ipv4":                 generateIPv4,
@@ -108,12 +110,20 @@ func generateStreetAddress(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Address().StreetAddress()))
 }
 
+func generateCity(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().City()))
+}
+
 func generatePostcode(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Address().Postcode()))
 }
 
 func generateCountry(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Address().Country()))
+}
+
+func generateState(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().State()))
 }
 
 func generateCreditCardNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {

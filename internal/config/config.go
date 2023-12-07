@@ -63,11 +63,20 @@ func New(version, commit, date string) *Config {
 }
 
 // ParseConfig parses a default or user provided config file.
-func (c *Config) ParseConfig(filepath string) {
+func (c *Config) ParseConfig(filepath string, presets []string) {
 	var jsonConfig []byte
+	var defaultConfig []byte
+	var jsonParser *json.Decoder
+	var jsonReader *strings.Reader
 	var err error
 
-	jsonConfig = []byte(embed.DefaultConfig)
+	// Load default config.
+	defaultConfig, err = embed.Content.ReadFile("files/default.json")
+	if err != nil {
+		log.Fatalln("Failed reading default config.")
+	}
+
+	jsonConfig = []byte(defaultConfig)
 
 	if filepath != "" {
 		jsonConfig, err = ioutil.ReadFile(filepath)
@@ -76,12 +85,31 @@ func (c *Config) ParseConfig(filepath string) {
 		}
 	}
 
-	jsonReader := strings.NewReader(string(jsonConfig))
-	jsonParser := json.NewDecoder(jsonReader)
+	jsonReader = strings.NewReader(string(jsonConfig))
+	jsonParser = json.NewDecoder(jsonReader)
 	err = jsonParser.Decode(c)
-
-	// Make sure the JSON read is valid.
 	if err != nil {
-		log.Fatalf("JSON file not valid!")
+		log.Fatalln("JSON file not valid!")
+	}
+
+	if len(presets) != 0 {
+		var presetConfig []byte
+		for _, preset := range presets {
+			presetConfig, err = embed.Content.ReadFile("files/config." + preset + ".json")
+			if err != nil {
+				log.Fatalf("No preset config found for: %s.", preset)
+			}
+
+			tempConfig := &Config{}
+
+			jsonReader = strings.NewReader(string(presetConfig))
+			jsonParser = json.NewDecoder(jsonReader)
+			err = jsonParser.Decode(tempConfig)
+			if err != nil {
+				log.Fatalln("JSON file not valid!")
+			}
+
+			c.Patterns = append(c.Patterns, tempConfig.Patterns...)
+		}
 	}
 }

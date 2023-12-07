@@ -32,10 +32,10 @@ func Start(version, commit, date string) {
 	log.SetOutput(os.Stderr)
 
 	// Parse flags for custom config file.
-	configFile := flag.Parse(version, commit, date, config.ProcessName)
+	configFile, presets := flag.Parse(version, commit, date, config.ProcessName)
 
 	// Parse config file.
-	config.ParseConfig(*configFile)
+	config.ParseConfig(*configFile, presets)
 
 	// Error if Stdin is the terminal instead of pipe.
 	stat, _ := os.Stdin.Stat()
