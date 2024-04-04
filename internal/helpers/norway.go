@@ -18,7 +18,8 @@ func generateControlDigits(ssn string) (int, int) {
 		if i < 9 { // First control digit calculation
 			sum1 += digit * weights1[i]
 		}
-		if i < 10 { // Second control digit calculation includes first control digit
+		// Note: Second control digit calculation now includes the first control digit, but it's added outside this loop
+		if i < 10 { // Second control digit calculation
 			sum2 += digit * weights2[i]
 		}
 	}
@@ -27,12 +28,21 @@ func generateControlDigits(ssn string) (int, int) {
 	control1 := 11 - (sum1 % 11)
 	control2 := 11 - (sum2 % 11)
 
-	// Adjust for special cases
+	// Adjust for special cases and check for the value 10
 	if control1 == 11 {
 		control1 = 0
+	} else if control1 == 10 {
+		return -1, -1 // Indicate an error or invalid state
 	}
+
+	// Add first control digit to sum2 before calculating control2
+	sum2 += control1 * weights2[9]
+	control2 = 11 - (sum2 % 11)
+
 	if control2 == 11 {
 		control2 = 0
+	} else if control2 == 10 {
+		return -1, -1 // Indicate an error or invalid state
 	}
 
 	return control1, control2
@@ -40,12 +50,19 @@ func generateControlDigits(ssn string) (int, int) {
 
 // generateFakeNorwegianSSN generates a fake (but valid) Norwegian SSN.
 func generateFakeNorwegianSSN(dob time.Time) string {
-	individualNumber := rand.Intn(500)
 	year, month, day := dob.Date()
-	ssn := fmt.Sprintf("%02d%02d%02d%03d", day, month, year%100, individualNumber)
+	var ssn string
+	var control1, control2 int = -1, -1
 
-	control1, control2 := generateControlDigits(ssn)
-	ssn += fmt.Sprintf("%d%d", control1, control2)
+	for control1 == -1 || control2 == -1 {
+		individualNumber := rand.Intn(500)
+		ssn = fmt.Sprintf("%02d%02d%02d%03d", day, month, year%100, individualNumber)
+
+		control1, control2 = generateControlDigits(ssn)
+		if control1 != -1 && control2 != -1 {
+			ssn += fmt.Sprintf("%d%d", control1, control2)
+		}
+	}
 
 	return ssn
 }
