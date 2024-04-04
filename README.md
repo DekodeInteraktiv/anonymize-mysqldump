@@ -155,6 +155,7 @@ Each column stores a certain type of data, be it a name, username, email, etc. T
 | `creditCardNumber`     | `1234-2121-1221-1211`                                                                                                                                                                                                            |
 | `creditCardExpiryDate` | `2015-11-11`                                                                                                                                                                                                                     |
 | `creditCardType`       | `mastercard`                                                                                                                                                                                                                     |
+| `norwegianSSN`         | `07026765743`                                                                                                                                                                                                                    |
 | `purge`                |                                                                                                                                                                                                                                  |
 
 If you need another type, please feel free to add support and file a PR!

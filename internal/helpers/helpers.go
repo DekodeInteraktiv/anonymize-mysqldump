@@ -46,6 +46,7 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"creditCardNumber":     generateCreditCardNumber,
 		"creditCardExpiryDate": generateCreditCardExpiryDate,
 		"creditCardType":       generateCreditCardType,
+		"norwegianSSN":         generateNorwegianSSN,
 		"purge":                generateEmptyString,
 	}
 
@@ -175,4 +176,8 @@ func generateLongNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateEmptyString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(""))
+}
+
+func generateNorwegianSSN(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(generateFakeNorwegianSSN(faker.Date().Birthday(18, 90))))
 }
