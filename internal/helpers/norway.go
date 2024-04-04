@@ -60,7 +60,7 @@ func generateFakeNorwegianSSN(dob time.Time) string {
 
 		control1, control2 = generateControlDigits(ssn)
 		if control1 != -1 && control2 != -1 {
-			ssn += fmt.Sprintf("%d%d", control1, control2)
+			ssn += fmt.Sprintf("%01d%01d", control1, control2)
 		}
 	}
 
