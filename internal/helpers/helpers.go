@@ -38,8 +38,6 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"addressCountryCode":   generateCountryCode,
 		"paragraph":            generateParagraph,
 		"shortString":          generateShortString,
-		"shortNumber":          generateShortNumber,
-		"longNumber":           generateLongNumber,
 		"ipv4":                 generateIPv4,
 		"companyName":          generateCompanyName,
 		"companyNumber":        generateCompanyNumber,
@@ -164,14 +162,6 @@ func generateCompanyNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateShortString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Lorem().Characters(30)))
-}
-
-func generateShortNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
-	return sqlparser.NewStrVal([]byte(faker.Number().Number(4)))
-}
-
-func generateLongNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
-	return sqlparser.NewStrVal([]byte(faker.Lorem().Characters(12)))
 }
 
 func generateEmptyString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
