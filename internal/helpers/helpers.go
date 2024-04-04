@@ -29,13 +29,17 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"firstName":            generateFirstName,
 		"lastName":             generateLastName,
 		"phoneNumber":          generatePhoneNumber,
+		"billingAddressFull":   generateBillingAddress,
 		"addressFull":          generateAddress,
 		"addressStreet":        generateStreetAddress,
 		"addressCity":          generateCity,
 		"addressPostCode":      generatePostcode,
 		"addressCountry":       generateCountry,
+		"addressCountryCode":   generateCountryCode,
 		"paragraph":            generateParagraph,
 		"shortString":          generateShortString,
+		"shortNumber":          generateShortNumber,
+		"longNumber":           generateLongNumber,
 		"ipv4":                 generateIPv4,
 		"companyName":          generateCompanyName,
 		"companyNumber":        generateCompanyNumber,
@@ -101,6 +105,18 @@ func generateIPv4(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Internet().IpV4Address()))
 }
 
+func generateBillingAddress(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	address := ""
+	address += " " + faker.Name().FirstName()
+	address += " " + faker.Name().LastName()
+	address += " " + faker.Address().String()
+	address += " " + faker.Address().CountryCode()
+	address += " " + faker.Internet().SafeEmail()
+	address += " " + faker.PhoneNumber().CellPhone()
+
+	return sqlparser.NewStrVal([]byte(address))
+}
+
 func generateAddress(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Address().String()))
 }
@@ -119,6 +135,10 @@ func generatePostcode(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateCountry(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Address().Country()))
+}
+
+func generateCountryCode(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().CountryCode()))
 }
 
 func generateCreditCardNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
@@ -143,6 +163,14 @@ func generateCompanyNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateShortString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Lorem().Characters(30)))
+}
+
+func generateShortNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Number().Number(4)))
+}
+
+func generateLongNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Lorem().Characters(12)))
 }
 
 func generateEmptyString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
