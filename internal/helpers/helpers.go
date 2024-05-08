@@ -7,6 +7,7 @@ import (
 
 	"github.com/xwb1989/sqlparser"
 	"syreclabs.com/go/faker"
+	"syreclabs.com/go/faker/locales"
 )
 
 var (
@@ -16,6 +17,8 @@ var (
 
 func init() {
 	usedEmails = make(map[string]bool)
+
+	faker.Locale = locales.En_GB
 }
 
 // GetFakerFuncs creates a map of faker helper functions.
@@ -25,6 +28,7 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"password":             generatePassword,
 		"email":                generateEmail,
 		"url":                  generateURL,
+		"prefix":				generatePrefix,
 		"name":                 generateName,
 		"firstName":            generateFirstName,
 		"lastName":             generateLastName,
@@ -36,8 +40,10 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"addressPostCode":      generatePostcode,
 		"addressCountry":       generateCountry,
 		"addressCountryCode":   generateCountryCode,
+		"birthday":				generateBirthday,
 		"paragraph":            generateParagraph,
 		"shortString":          generateShortString,
+		"word":					generateWord,
 		"ipv4":                 generateIPv4,
 		"companyName":          generateCompanyName,
 		"companyNumber":        generateCompanyNumber,
@@ -82,6 +88,10 @@ func generatePhoneNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateURL(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Internet().Url()))
+}
+
+func generatePrefix(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Name().Prefix()))
 }
 
 func generateName(value *sqlparser.SQLVal) *sqlparser.SQLVal {
@@ -140,6 +150,10 @@ func generateCountryCode(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Address().CountryCode()))
 }
 
+func generateBirthday(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Date().Birthday(18,90).Format("2006-01-02")))
+}
+
 func generateCreditCardNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Business().CreditCardNumber()))
 }
@@ -162,6 +176,10 @@ func generateCompanyNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateShortString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Lorem().Characters(30)))
+}
+
+func generateWord(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Lorem().Word()))
 }
 
 func generateEmptyString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
