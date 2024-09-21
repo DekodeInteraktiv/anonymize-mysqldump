@@ -18,7 +18,8 @@ Usage:
 
 Flags:
   --help -h      Outputs help text and exits.
-  --config -c    The path to a custom config file.
+  --config       The path to a custom config file.
+  --locale       The faker locale.
 
 Config:
   The anonymizer will use a default config suitable for WordPress, but you can override this by providing your own.`

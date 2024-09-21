@@ -14,16 +14,25 @@ You may also pipe in the content of an existing SQL dump using `cat`:
 cat database.sql | anonymize-mysqldump --config config.json > anonymized.sql
 ```
 
+You can also define the locale for the fake data generation (defaults to `en`):
+
+```sh
+cat database.sql | anonymize-mysqldump --config config.json --locale nb_no > anonymized.sql
 ```
-usage: anonymize-mysqldump [-h|--help] -c|--config "<value>"
 
-                           Reads SQL from STDIN and replaces content for
-                           anonymity based on the provided config.
+Here is the help command output as a guide.
 
-Arguments:
+```sh
+Usage:
+  anonymize-mysqldump [flags]
 
-  -h  --help    Print help information
-  -c  --config  Path to config.json
+Flags:
+  --help -h      Outputs help text and exits.
+  --config       The path to a custom config file.
+  --locale       The faker locale.
+
+Config:
+  The anonymizer will use a default config suitable for WordPress, but you can override this by providing your own.
 ```
 
 ## Installation

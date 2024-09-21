@@ -61,7 +61,6 @@ For example:
 	for line := range lines {
 		fmt.Print(<-line)
 	}
-
 }
 
 func setFakerLocale(localeFlag string) {
