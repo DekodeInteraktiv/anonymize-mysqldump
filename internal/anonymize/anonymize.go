@@ -16,6 +16,8 @@ import (
 	"github.com/DekodeInteraktiv/anonymize-mysqldump/internal/helpers"
 
 	"github.com/xwb1989/sqlparser"
+	"syreclabs.com/go/faker"
+	"syreclabs.com/go/faker/locales"
 )
 
 var (
@@ -32,7 +34,10 @@ func Start(version, commit, date string) {
 	log.SetOutput(os.Stderr)
 
 	// Parse flags for custom config file.
-	configFile := flag.Parse(version, commit, date, config.ProcessName)
+	configFile, locale := flag.Parse(version, commit, date, config.ProcessName)
+
+	// Set the faker locale.
+	setFakerLocale(*locale)
 
 	// Parse config file.
 	config.ParseConfig(*configFile)
@@ -57,6 +62,43 @@ For example:
 		fmt.Print(<-line)
 	}
 
+}
+
+func setFakerLocale(localeFlag string) {
+	// Map string identifiers to their corresponding locale maps
+	availableLocales := map[string]*map[string]interface{}{
+		"de_at":       &locales.De_AT,
+		"de-ch":       &locales.De_CH,
+		"de":          &locales.De,
+		"en_au":       &locales.En_AU,
+		"en_au_ocker": &locales.En_AU_OCKER,
+		"en_ca":       &locales.En_CA,
+		"en_gb":       &locales.En_GB,
+		"en_us":       &locales.En_US,
+		"en":          &locales.En,
+		"es":          &locales.Es,
+		"fr":          &locales.Fr,
+		"it":          &locales.It,
+		"ja":          &locales.Ja,
+		"ko":          &locales.Ko,
+		"nb_no":       &locales.Nb_NO,
+		"nl":          &locales.Nl,
+		"pt_br":       &locales.Pt_BR,
+		"ru":          &locales.Ru,
+		"sk":          &locales.Sk,
+		"sv":          &locales.Sv,
+		"vi":          &locales.Vi,
+		"zh_cn":       &locales.Zh_CN,
+		"zh_tw":       &locales.Zh_TW,
+	}
+
+	// Set the locale based on the command-line argument
+	if locale, ok := availableLocales[localeFlag]; ok {
+		faker.Locale = *locale
+	} else {
+		fmt.Printf("Locale '%s' is not supported.\n", localeFlag)
+		os.Exit(2)
+	}
 }
 
 func setupAndProcessInput(config config.Config, input io.Reader) chan chan string {
