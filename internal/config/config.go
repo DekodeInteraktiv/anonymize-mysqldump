@@ -2,7 +2,6 @@ package config
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -70,7 +69,7 @@ func (c *Config) ParseConfig(filepath string) {
 	jsonConfig = []byte(embed.DefaultConfig)
 
 	if filepath != "" {
-		jsonConfig, err = ioutil.ReadFile(filepath)
+		jsonConfig, err = os.ReadFile(filepath)
 		if err != nil {
 			log.Fatalf("Failed reading config file: %s", err)
 		}
