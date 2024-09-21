@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func Parse(version, commit, date, processName string) *string {
+func Parse(version, commit, date, processName string) (*string, *string) {
 	helpText := `Anonymize MySQLDump is a database anonymization tool.
 Version: ` + version + `
 Commit: ` + commit + `
@@ -18,12 +18,14 @@ Usage:
 
 Flags:
   --help -h      Outputs help text and exits.
-  --config -c    The path to a custom config file.
+  --config       The path to a custom config file.
+  --locale       The faker locale.
 
 Config:
   The anonymizer will use a default config suitable for WordPress, but you can override this by providing your own.`
 
 	flagConfigFile := pflag.String("config", "", "Path to config file.")
+	flagLocale := pflag.String("locale", "en", "Locale for faker data.")
 	flagHelp := pflag.BoolP("help", "h", false, "")
 
 	pflag.Parse()
@@ -33,5 +35,5 @@ Config:
 		os.Exit(1)
 	}
 
-	return flagConfigFile
+	return flagConfigFile, flagLocale
 }
