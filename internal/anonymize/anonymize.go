@@ -369,6 +369,9 @@ func rowObeysConstraints(constraints []config.PatternFieldConstraint, row sqlpar
 		case "like",
 			"==",
 			"=":
+			if parsedValue != constraint.Value {
+				return false
+			}
 		default:
 			if parsedValue != constraint.Value {
 				return false
