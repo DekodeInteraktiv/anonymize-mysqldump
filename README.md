@@ -89,6 +89,7 @@ An example config for anonymizing a WordPress database is provided at [`config.e
 
 ```json
 {
+  "locale": "en",
   "patterns": [
     {
       "tableName": "wp_users",
@@ -101,6 +102,7 @@ An example config for anonymizing a WordPress database is provided at [`config.e
 
 The config is composed of many objects in the `patterns` array:
 
+- `locale`: A string declaring what locale the Faker library should use. This is optional and defaults to `en`.
 - `patterns`: an array of objects defining what modifications should be made.
   - `tableName`: the name of the table the data will be stored in (used to parse `INSERT` statements to determine if the query should be modified.). You can also use regex to identify the relevant tables, required for multisite compatibility e.g. `.*_comments`.
   - `purge`: Optional `boolean` field, if set to `true` then any `INSERT` query matching the table name will be stripped out, avoiding accidentally including data that can't be anonymized in your final result.

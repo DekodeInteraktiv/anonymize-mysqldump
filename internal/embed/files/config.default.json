@@ -1,4 +1,5 @@
 {
+  "locale": "en",
   "patterns": [
     {
       "tableName": ".*_users",

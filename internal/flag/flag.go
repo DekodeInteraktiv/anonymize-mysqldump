@@ -25,7 +25,7 @@ Config:
   The anonymizer will use a default config suitable for WordPress, but you can override this by providing your own.`
 
 	flagConfigFile := pflag.String("config", "", "Path to config file.")
-	flagLocale := pflag.String("locale", "en", "Locale for faker data.")
+	flagLocale := pflag.String("locale", "", "Locale for faker data.")
 	flagHelp := pflag.BoolP("help", "h", false, "")
 
 	pflag.Parse()

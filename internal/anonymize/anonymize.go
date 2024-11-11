@@ -36,11 +36,21 @@ func Start(version, commit, date string) {
 	// Parse flags for custom config file.
 	configFile, locale := flag.Parse(version, commit, date, config.ProcessName)
 
-	// Set the faker locale.
-	setFakerLocale(*locale)
-
 	// Parse config file.
 	config.ParseConfig(*configFile)
+
+	// Set the locale to be the flag value if it was passed.
+	if *locale != "" {
+		config.Locale = *locale
+	}
+
+	// If no locale is defined in the config file or flag, set it to English by default.
+	if config.Locale == "" {
+		config.Locale = "en"
+	}
+
+	// Set the faker locale.
+	setFakerLocale(config.Locale)
 
 	// Error if Stdin is the terminal instead of pipe.
 	stat, _ := os.Stdin.Stat()
