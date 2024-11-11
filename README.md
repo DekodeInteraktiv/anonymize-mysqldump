@@ -137,7 +137,7 @@ Supposing you have a WordPress database and you need to modify certain meta, be 
 #### Compare rules
 Constraints allow the user to define rules for how to treat the comparison value. The following rules are supported:
 
-**PS: Remember that comparison rules are first come first serve, so as soon as a rule that would negate the anonymization of a field is found, it will short-circuit any further rules.**
+**PS: Remember that comparison rules are first come first serve, so as soon as a rule that would negate the anonymization of a field is found, it will short-circuit any further rules. You should also try to avoid comapring against other fields, remember that a field you may wish to compare against may already have been modified and no longer give the expected value!**
 
 - `like`: The default behavior. The SQL value must be equal to the constraint `value` field.
 - `not like`: The SQL value must not be equal to the constraint `value` field.
