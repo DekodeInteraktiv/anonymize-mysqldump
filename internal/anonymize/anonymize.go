@@ -357,10 +357,22 @@ func rowObeysConstraints(constraints []config.PatternFieldConstraint, row sqlpar
 
 		parsedValue := convertSQLValToString(value)
 		// TODO: Add behing a flag for debugging.
-		//log.Printf("Error: Constraint obediance, parsed value: %s, constraint value: %s.", parsedValue, constraint.Value)
+		//log.Printf("Error: Constraint obediance, parsed value: %s, constraint value: %s, and comparator: %s.", parsedValue, constraint.Value, constraint.Compare)
 
-		if parsedValue != constraint.Value {
-			return false
+		switch constraint.Compare {
+		case "not like",
+			"<>",
+			"!=":
+			if parsedValue == constraint.Value {
+				return false
+			}
+		case "like",
+			"==",
+			"=":
+		default:
+			if parsedValue != constraint.Value {
+				return false
+			}
 		}
 	}
 	return true

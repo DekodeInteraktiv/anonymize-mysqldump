@@ -112,6 +112,7 @@ The config is composed of many objects in the `patterns` array:
       - `field`: a string representing the name of the field.
       - `position`: the 1-based index of what number column this field represents. For instance, assuming a table with 3 columns `foo`, `bar`, and `baz`, and you wished to modify the `bar` column, this value would be `2`.
       - `value`: string value to match against.
+      - `compare`: An optional string stating how to treat the constraints. Passing `not like` will make it a negative lookup, and if the `value` matches, this line will not be processed. 
 
 ### Constraints
 
@@ -126,7 +127,8 @@ Supposing you have a WordPress database and you need to modify certain meta, be 
     {
       "field": "meta_key",
       "position": 3,
-      "value": "last_ip_address"
+      "value": "last_ip_address",
+      "compare": "like"
     }
   ]
 }
