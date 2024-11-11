@@ -137,7 +137,7 @@ Supposing you have a WordPress database and you need to modify certain meta, be 
 
 Each column stores a certain type of data, be it a name, username, email, etc. The `type` property in the config is used to define the type of data stored, and ultimately the type of random data to be inserted into the field. [https://github.com/dmgk/faker](https://github.com/dmgk/faker) is used for generating the fake data. These are the types currently supported:
 
-| Type                   | Example output                                                                                                                                                                                                                  |
+| Type                   | Example output                                                                                                                                                                                                                  | 
 |------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `username`             | `micah_pfeffer`                                                                                                                                                                                                                 |
 | `password`             | `5ccf672d5c73748146be6b37568efa57`                                                                                                                                                                                              |
@@ -168,6 +168,8 @@ Each column stores a certain type of data, be it a name, username, email, etc. T
 | `creditCardExpiryDate` | `2015-11-11`                                                                                                                                                                                                                    |
 | `creditCardType`       | `mastercard`                                                                                                                                                                                                                    |
 | `norwegianSSN`         | `07026765743`                                                                                                                                                                                                                   |
+| `WPDateTime`           | `2006-01-02 15:04:05`<br>Generates a random datetime +/- 12 years.                                                                                                                                                              |
+| `WPFutureDateTime`     | `2006-01-02 15:04:05`<br>Generates a random future datetime up to +12 years.                                                                                                                                                    |
 | `purge`                |                                                                                                                                                                                                                                 |
 
 If you need another type, please feel free to add support and file a PR!
