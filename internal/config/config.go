@@ -17,6 +17,7 @@ type Config struct {
 	Commit      string
 	Date        string
 	WD          string
+	Locale      string          `json:"locale"`
 	Patterns    []ConfigPattern `json:"patterns"`
 }
 
