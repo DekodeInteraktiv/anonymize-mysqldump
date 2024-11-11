@@ -112,7 +112,7 @@ The config is composed of many objects in the `patterns` array:
       - `field`: a string representing the name of the field.
       - `position`: the 1-based index of what number column this field represents. For instance, assuming a table with 3 columns `foo`, `bar`, and `baz`, and you wished to modify the `bar` column, this value would be `2`.
       - `value`: string value to match against.
-      - `compare`: An optional string stating how to treat the constraints. Passing `not like` will make it a negative lookup, and if the `value` matches, this line will not be processed. 
+      - `compare`: An optional string stating how to treat the constraints.
 
 ### Constraints
 
@@ -132,9 +132,18 @@ Supposing you have a WordPress database and you need to modify certain meta, be 
     }
   ]
 }
-
 ```
 
+#### Compare rules
+Constraints allow the user to define rules for how to treat the comparison value. The following rules are supported:
+
+**PS: Remember that comparison rules are first come first serve, so as soon as a rule that would negate the anonymization of a field is found, it will short-circuit any further rules.**
+
+- `like`: The default behavior. The SQL value must be equal to the constraint `value` field.
+- `not like`: The SQL value must not be equal to the constraint `value` field.
+- `regex`: The SQL value must match the regex string given in the `value` field.
+- `regex not like`: The inverse of `regex`, and requires the regex patter to not match the SQL value.
+- 
 ### Field Types
 
 Each column stores a certain type of data, be it a name, username, email, etc. The `type` property in the config is used to define the type of data stored, and ultimately the type of random data to be inserted into the field. [https://github.com/dmgk/faker](https://github.com/dmgk/faker) is used for generating the fake data. These are the types currently supported:

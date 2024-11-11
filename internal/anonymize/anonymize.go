@@ -366,6 +366,18 @@ func rowObeysConstraints(constraints []config.PatternFieldConstraint, row sqlpar
 			if parsedValue == constraint.Value {
 				return false
 			}
+		case "regex not like":
+			re := regexp.MustCompile(constraint.Value)
+			match := re.MatchString(parsedValue)
+			if match {
+				return false
+			}
+		case "regex":
+			re := regexp.MustCompile(constraint.Value)
+			match := re.MatchString(parsedValue)
+			if !match {
+				return false
+			}
 		case "like",
 			"==",
 			"=":
