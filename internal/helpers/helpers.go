@@ -28,11 +28,15 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"name":                 generateName,
 		"firstName":            generateFirstName,
 		"lastName":             generateLastName,
+		"personPrefix":         generatePersonPrefix,
+		"personTitle":          generatePersonTitle,
 		"phoneNumber":          generatePhoneNumber,
 		"billingAddressFull":   generateBillingAddress,
 		"addressFull":          generateAddress,
 		"addressStreet":        generateStreetAddress,
+		"addressSecondary":     generateSecondaryStreetAddress,
 		"addressCity":          generateCity,
+		"addressState":         generateAddressState,
 		"addressPostCode":      generatePostcode,
 		"addressCountry":       generateCountry,
 		"addressCountryCode":   generateCountryCode,
@@ -40,6 +44,7 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"shortString":          generateShortString,
 		"ipv4":                 generateIPv4,
 		"companyName":          generateCompanyName,
+		"companySuffix":        generateCompanySuffix,
 		"companyNumber":        generateCompanyNumber,
 		"creditCardNumber":     generateCreditCardNumber,
 		"creditCardExpiryDate": generateCreditCardExpiryDate,
@@ -96,6 +101,14 @@ func generateLastName(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Name().LastName()))
 }
 
+func generatePersonPrefix(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Name().Prefix()))
+}
+
+func generatePersonTitle(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Name().Title()))
+}
+
 func generateParagraph(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Lorem().Sentence(3)))
 }
@@ -122,6 +135,14 @@ func generateAddress(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateStreetAddress(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Address().StreetAddress()))
+}
+
+func generateSecondaryStreetAddress(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().SecondaryAddress()))
+}
+
+func generateAddressState(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Address().State()))
 }
 
 func generateCity(value *sqlparser.SQLVal) *sqlparser.SQLVal {
@@ -154,6 +175,10 @@ func generateCreditCardType(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateCompanyName(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(faker.Company().Name()))
+}
+
+func generateCompanySuffix(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	return sqlparser.NewStrVal([]byte(faker.Company().Suffix()))
 }
 
 func generateCompanyNumber(value *sqlparser.SQLVal) *sqlparser.SQLVal {
