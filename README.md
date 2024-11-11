@@ -143,7 +143,7 @@ Constraints allow the user to define rules for how to treat the comparison value
 - `not like`: The SQL value must not be equal to the constraint `value` field.
 - `regex`: The SQL value must match the regex string given in the `value` field.
 - `regex not like`: The inverse of `regex`, and requires the regex patter to not match the SQL value.
-- 
+
 ### Field Types
 
 Each column stores a certain type of data, be it a name, username, email, etc. The `type` property in the config is used to define the type of data stored, and ultimately the type of random data to be inserted into the field. [https://github.com/dmgk/faker](https://github.com/dmgk/faker) is used for generating the fake data. These are the types currently supported:
