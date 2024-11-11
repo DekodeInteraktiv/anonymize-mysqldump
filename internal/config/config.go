@@ -38,6 +38,7 @@ type PatternFieldConstraint struct {
 	Field    string `json:"field"`
 	Position int    `json:"position"`
 	Value    string `json:"value"`
+	Compare  string `json:"compare"`
 }
 
 // New creates a new Config from flags and environment variables

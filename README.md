@@ -112,6 +112,7 @@ The config is composed of many objects in the `patterns` array:
       - `field`: a string representing the name of the field.
       - `position`: the 1-based index of what number column this field represents. For instance, assuming a table with 3 columns `foo`, `bar`, and `baz`, and you wished to modify the `bar` column, this value would be `2`.
       - `value`: string value to match against.
+      - `compare`: An optional string stating how to treat the constraints.
 
 ### Constraints
 
@@ -126,12 +127,22 @@ Supposing you have a WordPress database and you need to modify certain meta, be 
     {
       "field": "meta_key",
       "position": 3,
-      "value": "last_ip_address"
+      "value": "last_ip_address",
+      "compare": "like"
     }
   ]
 }
-
 ```
+
+#### Compare rules
+Constraints allow the user to define rules for how to treat the comparison value. The following rules are supported:
+
+**PS: Remember that comparison rules are first come first serve, so as soon as a rule that would negate the anonymization of a field is found, it will short-circuit any further rules. You should also try to avoid comapring against other fields, remember that a field you may wish to compare against may already have been modified and no longer give the expected value!**
+
+- `like`: The default behavior. The SQL value must be equal to the constraint `value` field.
+- `not like`: The SQL value must not be equal to the constraint `value` field.
+- `regex`: The SQL value must match the regex string given in the `value` field.
+- `regex not like`: The inverse of `regex`, and requires the regex patter to not match the SQL value.
 
 ### Field Types
 

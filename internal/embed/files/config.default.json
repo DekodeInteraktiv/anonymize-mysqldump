@@ -7,13 +7,27 @@
           "field": "user_login",
           "position": 2,
           "type": "username",
-          "constraints": null
+          "constraints": [
+            {
+              "field": "user_login",
+              "position": 2,
+              "value": "myaccount",
+              "compare": "not like"
+            }
+          ]
         },
         {
           "field": "user_pass",
           "position": 3,
           "type": "password",
-          "constraints": null
+          "constraints": [
+            {
+              "field": "user_login",
+              "position": 2,
+              "value": "myaccount",
+              "compare": "not like"
+            }
+          ]
         },
         {
           "field": "user_nicename",
