@@ -3,7 +3,9 @@ package helpers
 import (
 	"crypto/md5"
 	"encoding/hex"
+	"math/rand"
 	"sync"
+	"time"
 
 	"github.com/xwb1989/sqlparser"
 	"syreclabs.com/go/faker"
@@ -50,6 +52,8 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"creditCardExpiryDate": generateCreditCardExpiryDate,
 		"creditCardType":       generateCreditCardType,
 		"norwegianSSN":         generateNorwegianSSN,
+		"WPDateTime":           generateWPDateTime,
+		"WPFutureDateTime":     generateWPFutureDateTime,
 		"purge":                generateEmptyString,
 	}
 
@@ -195,4 +199,37 @@ func generateEmptyString(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 
 func generateNorwegianSSN(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	return sqlparser.NewStrVal([]byte(generateFakeNorwegianSSN(faker.Date().Birthday(18, 90))))
+}
+
+func generateWPDateTime(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	// Define the maximum duration in the future/past.
+	// 11 years, 365 days, 24 hours, etc.
+	maxSeconds := int64(11 * 365 * 24 * 60 * 60)
+
+	// Generate a random number of seconds to add
+	randomSeconds := rand.Int63n(maxSeconds)
+
+	var futureTime time.Time
+
+	// Randomize if we add or remove time.
+	if rand.Intn(2) == 0 {
+		futureTime = time.Now().Add(time.Duration(randomSeconds) * time.Second)
+	} else {
+		futureTime = time.Now().Add(-time.Duration(randomSeconds) * time.Second)
+	}
+
+	return sqlparser.NewStrVal([]byte(futureTime.Format("2006-01-02 15:04:05")))
+}
+func generateWPFutureDateTime(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+	// Define the maximum duration in the future.
+	// 11 years, 365 days, 24 hours, etc.
+	maxSeconds := int64(11 * 365 * 24 * 60 * 60)
+
+	// Generate a random number of seconds to add
+	randomSeconds := rand.Int63n(maxSeconds)
+
+	// Add the random duration to the current time
+	futureTime := time.Now().Add(time.Duration(randomSeconds) * time.Second)
+
+	return sqlparser.NewStrVal([]byte(futureTime.Format("2006-01-02 15:04:05")))
 }
