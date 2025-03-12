@@ -14,6 +14,8 @@ You may also pipe in the content of an existing SQL dump using `cat`:
 cat database.sql | anonymize-mysqldump --config config.json > anonymized.sql
 ```
 
+Note: If you face issues using `cat` with very large databases, piping directly from `mysqldump` may solve your problem.
+
 You can also define the locale for the fake data generation (defaults to `en`):
 
 ```sh
