@@ -185,6 +185,7 @@ Each column stores a certain type of data, be it a name, username, email, etc. T
 | `norwegianSSN`         | `07026765743`                                                                                                                                                                                                                   |
 | `WPDateTime`           | `2006-01-02 15:04:05`<br>Generates a random datetime +/- 12 years.                                                                                                                                                              |
 | `WPFutureDateTime`     | `2006-01-02 15:04:05`<br>Generates a random future datetime up to +12 years.                                                                                                                                                    |
+| `spanishDNI`     | `12345678Z` <br>Generates a valid-looking Spanish DNI (8 digits + control letter).years.                                                                                                                                                    |
 | `purge`                |                                                                                                                                                                                                                                 |
 
 If you need another type, please feel free to add support and file a PR!
