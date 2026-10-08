@@ -55,6 +55,7 @@ func GetFakerFuncs() map[string]func(*sqlparser.SQLVal) *sqlparser.SQLVal {
 		"WPDateTime":           generateWPDateTime,
 		"WPFutureDateTime":     generateWPFutureDateTime,
 		"purge":                generateEmptyString,
+		"spanishDNI": 			generateSpanishDNI,
 	}
 
 	return fakerHelpers
@@ -232,4 +233,8 @@ func generateWPFutureDateTime(value *sqlparser.SQLVal) *sqlparser.SQLVal {
 	futureTime := time.Now().Add(time.Duration(randomSeconds) * time.Second)
 
 	return sqlparser.NewStrVal([]byte(futureTime.Format("2006-01-02 15:04:05")))
+}
+
+func generateSpanishDNI(value *sqlparser.SQLVal) *sqlparser.SQLVal {
+    return sqlparser.NewStrVal([]byte(generateFakeSpanishDNI()))
 }
